@@ -29,3 +29,13 @@
     state: started
     name: docker
     enabled: yes
+
+- name: Get version docker
+  ansible.builtin.command: docker version
+  register: result
+  changed_when: false
+
+- name: Print version docker
+  ansible.builtin.debug:
+    var: result
+    verbosity: 2
