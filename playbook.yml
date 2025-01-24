@@ -4,3 +4,4 @@
   become: yes
   roles:
     - roles/docker_install
+    - roles/docker_compose_install

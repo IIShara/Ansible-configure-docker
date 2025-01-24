@@ -1,0 +1,39 @@
+---
+# tasks file for docker_compose_install
+- name: Add repo EPEL
+  ansible.builtin.yum:
+    name:
+        - epel-release
+    update_cache: yes
+    state: present
+
+- name: Install dependencies
+  ansible.builtin.yum:
+    name:
+        - python-pip
+        - python-devel
+        - gcc
+        - python3-pip
+    update_cache: yes
+    state: present
+
+- name: Install docker-compose
+  ansible.builtin.pip:
+    name: docker-compose
+    executable: pip3
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    state: link
+
+- name: Get version docker-compose
+  ansible.builtin.command: docker-compose version
+  register: result
+  changed_when: false
+
+- name: Print docker-compose
+  ansible.builtin.debug:
+    var: result
+    verbosity: 2
