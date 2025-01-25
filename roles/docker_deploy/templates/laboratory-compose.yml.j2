@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  gitlab:
+    image: {{ gitlab_image }}
+    container_name: {{ gitlab_container_name }}
+    restart: always
+    hostname: '{{ gitlab_hostname }}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        external_url '{{ gitlab_web_protocol }}://{{ gitlab_hostname }}'
+        gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_shell_ssh_port }}
+        gitlab_rails['initial_root_password'] = 'P@ssw0rd'
+    ports:
+      - '{{ gitlab_http_port }}:80'
+      - '{{ gitlab_https_port }}:443'
+      - '{{ gitlab_ssh_port }}:22'
+    volumes:
+      - '{{ gitlab_config_dir_host }}:/etc/gitlab'
+      - '{{ gitlab_logs_dir_host }}:/var/log/gitlab'
+      - '{{ gitlab_data_dir_host }}:/var/opt/gitlab'
+    shm_size: '256m'
+
+   

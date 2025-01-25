@@ -1,0 +1,23 @@
+---
+# tasks file for run_docker_compose
+- name: Create HomeDir
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}"
+    state: directory
+
+- name: Copy laboratory-compose file
+  ansible.builtin.template:
+    src: laboratory-compose.yml.j2
+    dest: "{{ laboratory_home }}/laboratory-compose.yml"
+
+- name: Copy laboratory systemd file
+  ansible.builtin.template:
+    src: laboratory.service.j2
+    dest: /etc/systemd/system/laboratory.service
+
+- name: Start laboratory service
+  ansible.builtin.systemd_service:
+    name: laboratory
+    state: restarted
+    enabled: yes
+    daemon-reload: yes

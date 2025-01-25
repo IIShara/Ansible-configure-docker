@@ -1,0 +1,13 @@
+[Unit]
+Description=laboratory client
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+WorkingDirectory={{ laboratory_home }}
+# Compose up
+ExecStart=/usr/bin/docker compose -f laboratory-compose.yml up
+# Compose down, remove containers and volumes
+ExecStop=/usr/bin/docker compose -f laboratory-compose.yml down -v
+[Install]
+WantedBy=multi-user.target
