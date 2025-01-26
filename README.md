@@ -1,5 +1,8 @@
 # Ansible-configure-docker
 
+## Запуск
+ansible-playbook -i hosts playbook.yml -K
+
 ## Поддерживаемые дистрибутивы Linux
 * CentOS
 
