@@ -13,3 +13,7 @@ gitlab_logs_dir_host: ./data/docker/gitlab/var/opt/gitlab
 gitlab_data_dir_host: ./data/docker/gitlab/var/log/gitlab
 
 laboratory_home: /opt/docker-compose
+
+grafana_data_dir_host: ./data/docker/grafana/var/lib/grafana
+grafana_config_dir_host: ./data/docker/grafana/etc/grafana
+grafana_log_dir_host: ./data/docker/grafana/var/log/grafana

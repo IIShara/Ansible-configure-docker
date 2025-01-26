@@ -10,3 +10,6 @@
 * **Login:** root
 * **Password:** P@ssw0rd
 
+Сервер Grafana доступный по адресу http://grafana.local:3000
+* **Login:** admin
+* **Password:** admin

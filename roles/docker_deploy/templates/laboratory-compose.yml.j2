@@ -21,4 +21,15 @@ services:
       - '{{ gitlab_data_dir_host }}:/var/opt/gitlab'
     shm_size: '256m'
 
-   
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+     - GF_SERVER_ROOT_URL=http://grafana.local/
+     - GF_INSTALL_PLUGINS=grafana-clock-panel
+    ports:
+     - '3000:3000'
+    volumes:
+      - '{{  grafana_data_dir_host }}:/var/lib/grafana'
+      - '{{ grafana_log_dir_host }}:/var/log/grafana'

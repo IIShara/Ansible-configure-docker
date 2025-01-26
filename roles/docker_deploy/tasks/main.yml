@@ -5,6 +5,27 @@
     path: "{{ laboratory_home }}"
     state: directory
 
+- name: Create Data Dir for Grafana
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ grafana_data_dir_host }}"
+    state: directory
+    owner: 472
+    group: 472
+
+- name: Create Config Dir for Grafana
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ grafana_config_dir_host }}"
+    state: directory
+    owner: 472
+    group: 472
+
+- name: Create Log Dir for Grafana
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ grafana_log_dir_host }}"
+    state: directory
+    owner: 472
+    group: 472
+
 - name: Copy laboratory-compose file
   ansible.builtin.template:
     src: laboratory-compose.yml.j2
