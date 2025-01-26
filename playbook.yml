@@ -5,3 +5,5 @@
   roles:
     - roles/docker_install
     - roles/docker_compose_install
+    - roles/docker_deploy
+    - roles/gitlab_runner_install

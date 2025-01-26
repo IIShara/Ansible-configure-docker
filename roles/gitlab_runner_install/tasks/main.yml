@@ -1,0 +1,18 @@
+---
+# tasks file for gitlab_runner_install
+- name: Copy script.rpm
+  ansible.builtin.template:
+    src: script.rpm.sh.j2
+    dest: /tmp/script.rpm.sh
+    mode: '0645'
+
+- name: Start script add repo gitlab runner
+  ansible.builtin.command: /tmp/script.rpm.sh
+  args:
+    creates: /etc/yum.repos.d/runner_gitlab-runner.repo
+
+- name: Install gitlab-runner
+  ansible.builtin.yum:
+    name: gitlab-runner
+    update_cache: yes
+    state: present
