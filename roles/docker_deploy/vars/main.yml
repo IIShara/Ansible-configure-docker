@@ -5,7 +5,7 @@ gitlab_container_name: gitlab
 gitlab_hostname: gitlab.local
 gitlab_web_protocol: http
 gitlab_shell_ssh_port: 2424
-gitlab_http_port: 80
+gitlab_http_port: 8080
 gitlab_https_port: 8443
 gitlab_ssh_port: 2424
 gitlab_config_dir_host: ./data/docker/gitlab/etc/gitlab
@@ -17,3 +17,7 @@ laboratory_home: /opt/docker-compose
 grafana_data_dir_host: ./data/docker/grafana/var/lib/grafana
 grafana_config_dir_host: ./data/docker/grafana/etc/grafana
 grafana_log_dir_host: ./data/docker/grafana/var/log/grafana
+grafana_http_port: 3000
+
+nginx_config_dir_host: ./data/docker/nginx/conf.d
+nginx_log_dir_host: ./data/docker/nginx/var/log/nginx/

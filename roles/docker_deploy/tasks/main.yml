@@ -26,6 +26,21 @@
     owner: 472
     group: 472
 
+- name: Create Config Dir for Nginx
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ nginx_config_dir_host }}"
+    state: directory
+
+- name: Copy grafana.conf
+  ansible.builtin.template:
+    src: grafana.conf.j2
+    dest: "{{ laboratory_home }}/{{ nginx_config_dir_host }}/grafana.conf"
+
+- name: Copy gitlab.conf
+  ansible.builtin.template:
+    src: gitlab.conf.j2
+    dest: "{{ laboratory_home }}/{{ nginx_config_dir_host }}/gitlab.conf"
+
 - name: Copy laboratory-compose file
   ansible.builtin.template:
     src: laboratory-compose.yml.j2

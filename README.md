@@ -1,7 +1,11 @@
 # Ansible-configure-docker
+
+## Поддерживаемые дистрибутивы Linux
+* CentOS
+
 ## Описание ролей
-* **role/docker_install** - Установка docker из официального репозитория. Поддерживается CentOS
-* **role/docker_compose_install** - Установка docker_compose. Поддерживается CentOS
+* **role/docker_install** - Установка docker из официального репозитория
+* **role/docker_compose_install** - Установка docker_compose
 * **role/docker_deploy** - Запуск docker compose
 * **role/gitlab_runner_install** - Установка gitlab_runner
 
@@ -10,6 +14,6 @@
 * **Login:** root
 * **Password:** P@ssw0rd
 
-Сервер Grafana доступный по адресу http://grafana.local:3000
+Сервер Grafana доступный по адресу http://grafana.local
 * **Login:** admin
 * **Password:** admin
