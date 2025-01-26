@@ -10,10 +10,14 @@
 * **role/gitlab_runner_install** - Установка gitlab_runner
 
 ## Результат:
-Сервер Gitlab доступный по адресу http://gitlab.local 
+**1. Сервер Gitlab** 
+* **URL:** http://gitlab.local 
 * **Login:** root
 * **Password:** P@ssw0rd
 
-Сервер Grafana доступный по адресу http://grafana.local
+**2. Сервер Grafana** 
+* **URL:** http://grafana.local
 * **Login:** admin
 * **Password:** admin
+
+**3. Сервер Nginx**
