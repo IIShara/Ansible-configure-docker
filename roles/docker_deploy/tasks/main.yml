@@ -41,6 +41,23 @@
     src: gitlab.conf.j2
     dest: "{{ laboratory_home }}/{{ nginx_config_dir_host }}/gitlab.conf"
 
+- name: Create Config dir for prometheus
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ prometheus_config_dir_host }}"
+    state: directory
+
+- name: Create Data dir for prometheus
+  ansible.builtin.file:
+    path: "{{ laboratory_home }}/{{ prometheus_data_dir_host }}"
+    state: directory
+    owner: 65534
+    group: 65534
+
+- name: Copy prometheus.yml
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: "{{ laboratory_home }}/{{ prometheus_config_dir_host }}/prometheus.yml"
+
 - name: Copy laboratory-compose file
   ansible.builtin.template:
     src: laboratory-compose.yml.j2

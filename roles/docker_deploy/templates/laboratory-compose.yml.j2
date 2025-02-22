@@ -9,8 +9,32 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
         external_url '{{ gitlab_web_protocol }}://{{ gitlab_hostname }}'
+        registry_external_url '{{ gitlab_web_protocol }}://{{ gitlab_registry_hostname }}'
+        registry_nginx['redirect_http_to_https'] = true
+        registry_nginx['listen_port'] = 5050
         gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_shell_ssh_port }}
         gitlab_rails['initial_root_password'] = 'P@ssw0rd'
+        gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/0', '192.168.0.126/24', '0.0.0.0\0']
+        node_exporter['listen_address'] = '0.0.0.0:9100'
+        gitlab_workhorse['prometheus_listen_addr'] = "0.0.0.0:9229"
+
+        # Rails nodes
+        gitlab_exporter['listen_address'] = '0.0.0.0'
+        gitlab_exporter['listen_port'] = '9168'
+        registry['debug_addr'] = '0.0.0.0:5001'
+
+        # Sidekiq nodes
+        sidekiq['listen_address'] = '0.0.0.0'
+
+        # Redis nodes
+        redis_exporter['listen_address'] = '0.0.0.0:9121'
+
+        # PostgreSQL nodes
+        postgres_exporter['listen_address'] = '0.0.0.0:9187'
+
+        # Pgbouncer nodes
+        pgbouncer_exporter['listen_address'] = '0.0.0.0:9188'
+        gitlab_rails['prometheus_address'] = 'prometheus:9090'
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
     ports:
@@ -36,6 +60,49 @@ services:
       - '{{  grafana_data_dir_host }}:/var/lib/grafana'
       - '{{ grafana_log_dir_host }}:/var/log/grafana'
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    environment:
+      TZ: "Europe/Moscow"
+    ports:
+      - 9090:9090
+    volumes:
+      - '{{ prometheus_config_dir_host }}:/etc/prometheus'
+      - '{{ prometheus_data_dir_host }}:/prometheus'
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: exporter
+    hostname: exporter
+    restart: unless-stopped
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.ignored-mount-points
+      - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    environment:
+      TZ: "Europe/Moscow" 
+    ports:
+      - 9100:9100
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    container_name: gitlab_runner
+    restart: always
+    volumes:
+      - ./config/:/etc/gitlab-runner/
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    
   nginx:
     image: nginx
     container_name: nginx
@@ -46,3 +113,5 @@ services:
     volumes:
       - {{ nginx_config_dir_host }}:/etc/nginx/conf.d
       - {{ nginx_log_dir_host }}:/var/log/nginx/
+
+  
